@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Namespace
 
+from constants import ROWS_PER_PAGE
 from dao.model.director import DirectorSchema
 from decorators import auth_required, admin_required
 from implemented import director_service
@@ -11,9 +12,16 @@ director_ns = Namespace('directors')
 @director_ns.route('/')
 class DirectorsView(Resource):
     # @auth_required
-    def get(self):
+    # def get(self):
+    def get(self, page=None):
         rs = director_service.get_all()
-        res = DirectorSchema(many=True).dump(rs)
+        if page is None:
+            res = DirectorSchema(many=True).dump(rs)
+            return res, 200
+
+        rs = rs.paginate(page, per_page=ROWS_PER_PAGE)
+        res = DirectorSchema(many=True).dump(rs.items)
+
         return res, 200
 
     # @admin_required

@@ -9,7 +9,8 @@ class GenreDAO:
         return self.session.query(Genre).get(bid)
 
     def get_all(self):
-        return self.session.query(Genre).all()
+        # return self.session.query(Genre).all()
+        return self.session.query(Genre)
 
     def create(self, genre_d):
         ent = Genre(**genre_d)

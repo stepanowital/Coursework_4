@@ -1,6 +1,7 @@
 from flask import request
 from flask_restx import Resource, Namespace
 
+from constants import ROWS_PER_PAGE
 from dao.model.genre import GenreSchema
 from decorators import auth_required, admin_required
 from implemented import genre_service
@@ -11,9 +12,16 @@ genre_ns = Namespace('genres')
 @genre_ns.route('/')
 class GenresView(Resource):
     # @auth_required
-    def get(self):
+    # def get(self):
+    def get(self, page=None):
         rs = genre_service.get_all()
-        res = GenreSchema(many=True).dump(rs)
+        if page is None:
+            res = GenreSchema(many=True).dump(rs)
+            return res, 200
+
+        rs = rs.paginate(page, per_page=ROWS_PER_PAGE)
+        res = GenreSchema(many=True).dump(rs.items)
+
         return res, 200
 
     # @admin_required

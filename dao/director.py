@@ -9,7 +9,8 @@ class DirectorDAO:
         return self.session.query(Director).get(bid)
 
     def get_all(self):
-        return self.session.query(Director).all()
+        # return self.session.query(Director).all()
+        return self.session.query(Director)
 
     def create(self, director_d):
         ent = Director(**director_d)
