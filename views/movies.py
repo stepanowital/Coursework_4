@@ -12,7 +12,6 @@ movie_ns = Namespace('movies')
 @movie_ns.route('/')
 class MoviesView(Resource):
     # @auth_required
-    # def get(self):
     def get(self):
         director = request.args.get("director_id")
         genre = request.args.get("genre_id")
@@ -27,11 +26,14 @@ class MoviesView(Resource):
         }
 
         all_movies = movie_service.get_all(filters)
+
         if status == "new":
             all_movies = all_movies.order_by(Movie.year)
+
         if page is None:
             res = MovieSchema(many=True).dump(all_movies)
             return res, 200
+
         page = int(page)
         all_movies = all_movies.paginate(page, per_page=ROWS_PER_PAGE)
         res = MovieSchema(many=True).dump(all_movies.items)
