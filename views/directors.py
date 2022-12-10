@@ -13,12 +13,15 @@ director_ns = Namespace('directors')
 class DirectorsView(Resource):
     # @auth_required
     # def get(self):
-    def get(self, page=None):
+    def get(self):
         rs = director_service.get_all()
+        page = request.args.get("page")
+
         if page is None:
             res = DirectorSchema(many=True).dump(rs)
             return res, 200
 
+        page = int(page)
         rs = rs.paginate(page, per_page=ROWS_PER_PAGE)
         res = DirectorSchema(many=True).dump(rs.items)
 

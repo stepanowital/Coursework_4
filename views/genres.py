@@ -13,12 +13,15 @@ genre_ns = Namespace('genres')
 class GenresView(Resource):
     # @auth_required
     # def get(self):
-    def get(self, page=None):
+    def get(self):
         rs = genre_service.get_all()
+        page = request.args.get("page")
+
         if page is None:
             res = GenreSchema(many=True).dump(rs)
             return res, 200
 
+        page = int(page)
         rs = rs.paginate(page, per_page=ROWS_PER_PAGE)
         res = GenreSchema(many=True).dump(rs.items)
 

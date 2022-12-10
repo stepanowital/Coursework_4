@@ -13,10 +13,12 @@ movie_ns = Namespace('movies')
 class MoviesView(Resource):
     # @auth_required
     # def get(self):
-    def get(self, page=None):
+    def get(self):
         director = request.args.get("director_id")
         genre = request.args.get("genre_id")
         year = request.args.get("year")
+        page = request.args.get("page")
+
         filters = {
             "director_id": director,
             "genre_id": genre,
@@ -27,7 +29,7 @@ class MoviesView(Resource):
         if page is None:
             res = MovieSchema(many=True).dump(all_movies)
             return res, 200
-
+        page = int(page)
         all_movies = all_movies.paginate(page, per_page=ROWS_PER_PAGE)
         res = MovieSchema(many=True).dump(all_movies.items)
 
