@@ -3,7 +3,7 @@ import base64
 import hmac
 
 from dao.user import UserDAO
-from constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS
+from constants import PWD_HASH_SALT, PWD_HASH_ITERATIONS, JWT_ALGORITHM_sha256
 
 
 class UserService:
@@ -32,7 +32,7 @@ class UserService:
 
 	def generate_password(self, password):
 		return base64.b64encode(hashlib.pbkdf2_hmac(
-			'sha256',
+			JWT_ALGORITHM_sha256,
 			password.encode('utf-8'),  # Convert the password to bytes
 			PWD_HASH_SALT,
 			PWD_HASH_ITERATIONS
@@ -42,7 +42,7 @@ class UserService:
 		decoded_digest = base64.b64decode(password_hash)
 
 		hash_digest = hashlib.pbkdf2_hmac(
-			'sha256',
+			JWT_ALGORITHM_sha256,
 			other_password.encode('utf-8'),
 			PWD_HASH_SALT,
 			PWD_HASH_ITERATIONS

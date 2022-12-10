@@ -15,11 +15,21 @@ class UserDAO:
 		return self.session.query(User).filter(User.username == username).first()
 
 	def create(self, user_d):
+		# new_user = User(
+		# 	id=user_d.get('id'),
+		# 	username=user_d.get('username'),
+		# 	password=user_d.get('password'),
+		# 	role=user_d.get('role')
+		# )
 		new_user = User(
 			id=user_d.get('id'),
-			username=user_d.get('username'),
+			email=user_d.get('email'),
 			password=user_d.get('password'),
-			role=user_d.get('role'),
+			name=user_d.get('name'),
+			surname=user_d.get('surname'),
+			favorite_genre=user_d.get('favorite_genre'),
+			username=user_d.get('username'),
+			role=user_d.get('role')
 		)
 
 		self.session.add(new_user)
