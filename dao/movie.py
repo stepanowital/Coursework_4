@@ -1,3 +1,4 @@
+from constants import ROWS_PER_PAGE
 from dao.model.movie import Movie
 
 
@@ -18,7 +19,9 @@ class MovieDAO:
         # if "year" in filters:
         #     t = t.filter(Movie.year == filters.get("year"))
         # return t.all()
-        return self.session.query(Movie).all()
+
+        # return self.session.query(Movie).all()
+        return self.session.query(Movie)
 
     def get_by_director_id(self, val):
         return self.session.query(Movie).filter(Movie.director_id == val).all()
