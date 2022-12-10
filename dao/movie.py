@@ -1,4 +1,3 @@
-from constants import ROWS_PER_PAGE
 from dao.model.movie import Movie
 
 

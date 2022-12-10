@@ -2,7 +2,7 @@ from flask import request
 from flask_restx import Resource, Namespace
 
 from constants import ROWS_PER_PAGE
-from dao.model.movie import MovieSchema
+from dao.model.movie import MovieSchema, Movie
 from decorators import auth_required, admin_required
 from implemented import movie_service
 
@@ -18,6 +18,7 @@ class MoviesView(Resource):
         genre = request.args.get("genre_id")
         year = request.args.get("year")
         page = request.args.get("page")
+        status = request.args.get("status")
 
         filters = {
             "director_id": director,
@@ -26,6 +27,8 @@ class MoviesView(Resource):
         }
 
         all_movies = movie_service.get_all(filters)
+        if status == "new":
+            all_movies = all_movies.order_by(Movie.year)
         if page is None:
             res = MovieSchema(many=True).dump(all_movies)
             return res, 200
