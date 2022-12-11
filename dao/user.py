@@ -44,11 +44,33 @@ class UserDAO:
 		self.session.delete(user)
 		self.session.commit()
 
-	def update(self, user_d):
-		user = self.get_one(user_d.get("id"))
-		user.username = user_d.get("username")
-		user.password = user_d.get("password")
-		user.role = user_d.get("role")
+	def update(self, user, user_info):
+		user = self.get_one(user["id"])
+
+		user.name = user_info["name"]
+		user.username = user_info["username"]
+		user.surname = user_info["surname"]
+		user.role = user_info["role"]
+		user.favorite_genre = user_info["favorite_genre"]
 
 		self.session.add(user)
 		self.session.commit()
+
+	def update_password(self, user, password):
+		user.password = password
+
+		self.session.add(user)
+		self.session.commit()
+
+	# def update(self, user_d):
+	# 	user = self.get_one(user_d.get("id"))
+	# 	user.username = user_d.get("username")
+	# 	user.password = user_d.get("password")
+	# 	user.role = user_d.get("role")
+	# 	user.surname = user_d.get("surname")
+	# 	user.email = user_d.get("email")
+	# 	user.favorite_genre = user_d.get("favorite_genre")
+	# 	user.name = user_d.get("name")
+	#
+	# 	self.session.add(user)
+	# 	self.session.commit()

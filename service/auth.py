@@ -24,8 +24,10 @@ class AuthService:
 		user.email = str(email)
 
 		data = {
-			"username": user.username,
-			"role": user.role
+			"id": user.id,
+			"name": user.name,
+			"surname": user.surname,
+			"favorite_genre": user.favorite_genre
 		}
 
 		# 60 minutes for access token
